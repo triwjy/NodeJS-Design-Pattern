@@ -14,6 +14,10 @@ class FindRegex extends EventEmitter {
   }
 
   find() {
+    // convert to async since readFile is async(otherwise this event will be missed)
+    process.nextTick(() => {
+      this.emit('start-find', this.files);
+    });
     for (const file of this.files) {
       readFile(file, 'utf8', (err, content) => {
         if (err) {
@@ -37,5 +41,6 @@ findRegexInstance
   .addFile('fileA.txt')
   .addFile('fileB.json')
   .find()
+  .on('start-find', (files) => console.log(`Files to be searched: ${files}`))
   .on('found', (file, match) => console.log(`Matched "${match}" in ${file}`))
   .on('error', (err) => console.error(`Error emitted: ${err.message}`));

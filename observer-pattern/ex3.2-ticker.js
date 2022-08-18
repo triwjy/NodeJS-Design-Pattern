@@ -17,6 +17,6 @@ function ticker(n, cb) {
   return emitter;
 }
 
-ticker(1510, (err, totalTick) => {
+ticker(155, (err, totalTick) => {
   console.log(`Total tick: ${totalTick}`);
 }).on('tick', () => console.log('tick...'));
