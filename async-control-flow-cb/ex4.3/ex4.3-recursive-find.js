@@ -5,7 +5,7 @@ function getAllFiles(dir, cb) {
   let result = [];
   fs.readdir(dir, (err, files) => {
     if (err) return cb(err);
-    if (files.length === 0) return process.nextTick(cb(null, result));
+    if (files.length === 0) return process.nextTick(() => cb(null, result));
 
     let progress = 0;
     files.forEach((file) => {
@@ -21,7 +21,7 @@ function getAllFiles(dir, cb) {
             if (err) return cb(err);
             result = result.concat(res);
             if (++progress === files.length) {
-              return cb(null, result);
+              return process.nextTick(() => cb(null, result));
             }
           });
         }
@@ -49,7 +49,9 @@ function recursiveFind(dir, keyword, cb) {
   });
 }
 
-const dir = path.join(process.cwd(), '..');
+const dir = path.join(process.cwd(), '..', '..');
+// console.log(dir);
+
 // getAllFiles(dir, (err, result) => {
 //   if (err) console.error(err);
 //   console.log(result);
